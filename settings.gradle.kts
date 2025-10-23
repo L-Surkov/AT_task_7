@@ -1,1 +1,0 @@
-rootProject.name = "AT_task_7"

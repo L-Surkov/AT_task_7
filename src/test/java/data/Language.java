@@ -5,7 +5,6 @@ public enum Language {
     EN("We are on social networks:");
 
 
-
     public final String description;
 
     Language(String description) {
