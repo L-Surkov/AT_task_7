@@ -4,25 +4,25 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+
 import data.Language;
 
 public class ParametrizedTests extends TestBase {
 
     @ParameterizedTest(name = "Успешный поиск на Яндекс.Маркете: {0}")
-    @ValueSource(strings = {
-            "зубная щетка", "ноутбук", "Play Station"
-    })
+    @ValueSource(strings = {"зубная щетка", "ноутбук", "Play Station"})
     @DisplayName("Успешный поиск товаров на Яндекс.Маркете")
     void searchForProductsShouldHaveResults(String search) {
         open("https://market.yandex.ru/");
         $("#header-search").setValue(search).pressEnter();
-        //$$(".n-snippet-list__item").shouldBe(sizeGreaterThan(0));
         $("[data-auto='title']").shouldHave(text(search));
     }
+
     @ParameterizedTest(name = "Язык {0} ")
     @EnumSource(Language.class)
     @DisplayName("Проверка локализации сайта через EnumSource")
@@ -31,10 +31,8 @@ public class ParametrizedTests extends TestBase {
         $("#lang").$(byText(language.name())).click();
         $(".flexrow").shouldHave(text(language.description));
     }
-    @CsvSource(value = {
-            "T123,test123",
-            "TestUser99,invalidpassword"
-    })
+
+    @CsvSource(value = {"T123,test123", "TestUser99,invalidpassword"})
     @ParameterizedTest(name = "Ошибка при авторизации пользователя {0} с паролем {1} на сайте")
     void userAuthorizationOnSiteShouldBeFailed(String login, String password) {
         open("https://demoqa.com/login");
